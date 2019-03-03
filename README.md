@@ -31,7 +31,7 @@ www.sanpa.org/wp-admin
 e inserire le credenziali
 
 ```
-user: user
-password: password
+Nome utente o indirizzo email: user
+Password: password
 ```
 
