@@ -144,7 +144,7 @@ update_go() {
 # Return: none
 ###################################################################
 wpinstall_go() {
-    ./wp-install.sh
+    /vagrant/wpinstall.sh
 }
 
 ###################################################################
@@ -162,7 +162,7 @@ main() {
     php_go
     nginx_go
     wpcli_go
-    #wpinstall_go
+    wpinstall_go
     create_lock
 }
 

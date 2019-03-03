@@ -203,9 +203,9 @@ configure_wp() {
 configure_nginx() {
     echo "====== configure nginx"
     # Configure NGINX
-    sed "s:DOCUMENT_ROOT:$DOCUMENT_ROOT:g" nginx/site > tmp/site
-    sed -i "s:DOMAIN:$DOMAIN:g" tmp/site
-    sudo cp tmp/site /etc/nginx/sites-available/$DOMAIN
+    sed "s:DOCUMENT_ROOT:$DOCUMENT_ROOT:g" /vagrant/nginx/site > /vagrant/tmp/site
+    sed -i "s:DOMAIN:$DOMAIN:g" /vagrant/tmp/site
+    sudo cp /vagrant/tmp/site /etc/nginx/sites-available/$DOMAIN
     sudo ln -sf /etc/nginx/sites-available/$DOMAIN /etc/nginx/sites-enabled/$DOMAIN
     sudo service nginx restart
 }
@@ -221,14 +221,14 @@ main() {
     echo "================================================================="
     echo "Awesome WordPress Installer!!"
     echo "================================================================="
-    mkdir -p tmp
+    mkdir -p /vagrant/tmp
     create_account
     download_wp
     create_db
     install_wp
     configure_wp
     configure_nginx
-    rm -rf tmp
+    rm -rf /vagrant/tmp
     echo "================================================================="
     echo "Installation is complete."
     echo "================================================================="
