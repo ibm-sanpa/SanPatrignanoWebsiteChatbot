@@ -7,6 +7,7 @@ source $SCRIPT_DIR/configure.sh
 
 ENCRYPTED_PASSWD=$(openssl passwd -1 $HOST_PASSWD)
 
+
 ###################################################################
 # create_account
 #
@@ -18,7 +19,7 @@ ENCRYPTED_PASSWD=$(openssl passwd -1 $HOST_PASSWD)
 # Return: none
 ###################################################################
 create_account() {
-    echo "=== configure $HOST_USER account"
+    echo "==== configure $HOST_USER account"
     if [ "$(id -u $HOST_USER > /dev/null 2>&1; echo $?)" != "0" ]; then
         sudo useradd -d /home/$HOST_USER -g admin -s /bin/bash \
  		-p $ENCRYPTED_PASSWD $HOST_USER
@@ -37,7 +38,7 @@ create_account() {
 # Return: none
 ###################################################################
 download_wp() {
-    echo "=== install wordpress in $DOCUMENT_ROOT/$DOMAIN"
+    echo "==== install wordpress in $DOCUMENT_ROOT/$DOMAIN"
 
     # Create new Document Root
     if [ -d "$DOCUMENT_ROOT/$DOMAIN" ]; then
@@ -62,7 +63,7 @@ download_wp() {
 # Return: none
 ###################################################################
 create_db() {
-    echo "=== create database $DB_NAME"
+    echo "==== create database $DB_NAME"
     # Create MySQL user if does not exist
     DB_USER_EXIST="$(mysql -u $MYSQL_USER -p$MYSQL_PASSWD -sse "SELECT EXISTS(SELECT 1 FROM mysql.user WHERE user = '$DB_USER')")"
 
@@ -90,7 +91,7 @@ create_db() {
 # Return: none
 ###################################################################
 install_wp() {
-    echo "=== install wordpress"
+    echo "==== install wordpress"
     sudo su - $HOST_USER -c "cd $DOCUMENT_ROOT/$DOMAIN; \
 	wp core install --url=\"$DOMAIN\" \
 	--title=\"$WP_NAME\" --admin_user=\"$WP_USER\" \
@@ -105,7 +106,7 @@ install_wp() {
 # Return: none
 ###################################################################
 configure_wp_settings() {
-    echo "====== configure wordpress settings"
+    echo "===== configure wordpress settings"
 
     # Modify Settings->General
 
@@ -157,6 +158,11 @@ configure_wp_plugins() {
         sudo su - $HOST_USER -c "cd $DOCUMENT_ROOT/$DOMAIN; \
             wp plugin install $plugin --activate"
     done
+
+    # Enable direct FTP to install plugins from dashboard
+    # Increase memory limit
+
+
 }
 
 ###################################################################
@@ -174,6 +180,31 @@ configure_wp_aspect() {
     sudo su - $HOST_USER -c "cd $DOCUMENT_ROOT/$DOMAIN; \
         wp theme install $WP_THEME --activate"
 }
+
+###################################################################
+# configure_wp_config
+#
+# Input: none
+# Description: this function configure direct FTP and memory limit
+#              to install plugins from WP dashboard.
+# Return: none
+###################################################################
+configure_wp_config() {
+
+  echo "====== configure wordpress dashboard"
+  echo "====== Append lines to wp-content.php file"
+
+    cat >> $WP_CONFIG_FILE << EOL
+  /**
+  * Configure WP dashboard direct FTP and memory limit.
+  */
+  define('FS_METHOD', 'direct');
+  define('WP_MEMORY_LIMIT', '3000M');
+
+EOL
+}
+
+###################################################################
 # configure_wp
 #
 # Input: none
@@ -181,7 +212,8 @@ configure_wp_aspect() {
 # Return: none
 ###################################################################
 configure_wp() {
-    echo "=== configure wordpress"
+
+    echo "==== configure wordpress"
 
     # Modify Settings configuration
     configure_wp_settings
@@ -191,7 +223,32 @@ configure_wp() {
 
     # Configure Wordpress aspect
     configure_wp_aspect
+
+    # Configure Wordpress dashboard
+    configure_wp_config
+
 }
+
+###################################################################
+# import:_wp
+#
+# Input: none
+# Description: this function import WordPress db and site images
+# Return: none
+###################################################################
+import_wp() {
+
+  echo "===== Import wordpress databsase"
+  mysql -u $MYSQL_USER -p$MYSQL_PASSWD $DB_NAME < $SCRIPT_DIR/$DB_NAME.sql
+
+  echo "===== Import wordpress images "
+  cp -R $SCRIPT_DIR/wordpress/uploads $DOCUMENT_ROOT/$DOMAIN/wp-content
+
+  echo "===== Change file permission on wp-content wordpress folder"
+  chown -R www-data:www-data $WP_CONTENT_FOLDER
+
+}
+
 
 ###################################################################
 # configure_nginx
@@ -227,6 +284,7 @@ main() {
     create_db
     install_wp
     configure_wp
+    import_wp
     configure_nginx
     rm -rf /vagrant/tmp
     echo "================================================================="
