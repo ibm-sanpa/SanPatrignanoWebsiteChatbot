@@ -205,6 +205,31 @@ EOL
 }
 
 ###################################################################
+# configure_wa_config
+#
+# Input: none
+# Description: this function configure WordPress WatsonConversation plugin.
+# Return: none
+###################################################################
+configure_wa_plugin() {
+
+ ASSISTANT_URL=""
+ ASSISTANT_USERNAME=""
+ ASSISTANT_PASSWORD=""
+
+ echo "====== configure watson conversation plugin"
+
+ if [ -e "$SCRIPT_DIR/.env" ]; then
+     source $SCRIPT_DIR/.env
+ fi
+
+ sed -i -e "s#ASSISTANT_URL#${ASSISTANT_URL}#g" ${SCRIPT_DIR}/${DB_NAME}.sql
+ sed -i -e "s/ASSISTANT_USERNAME/${ASSISTANT_USERNAME}/g" ${SCRIPT_DIR}/${DB_NAME}.sql
+ sed -i -e "s/ASSISTANT_PASSWORD/${ASSISTANT_PASSWORD}/g" ${SCRIPT_DIR}/${DB_NAME}.sql
+
+}
+
+###################################################################
 # configure_wp
 #
 # Input: none
@@ -220,6 +245,7 @@ configure_wp() {
 
     # Install and configure Wordpress plugins
     configure_wp_plugins
+    configure_wa_plugin
 
     # Configure Wordpress aspect
     configure_wp_aspect
