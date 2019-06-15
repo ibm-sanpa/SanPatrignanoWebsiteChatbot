@@ -31,8 +31,8 @@ mysql_go() {
     # it the following two echo commands are used to set the root
     # password equal to "root", this will be changed later by the
     # administrator.
-    echo "mysql-server-5.5 mysql-server/root_password password root" | sudo debconf-set-selections
-    echo "mysql-server-5.5 mysql-server/root_password_again password root" | sudo debconf-set-selections
+    echo "mysql-server-5.7 mysql-server/root_password password root" | sudo debconf-set-selections
+    echo "mysql-server-5.7 mysql-server/root_password_again password root" | sudo debconf-set-selections
     sudo apt-get -y install mysql-client mysql-server
 }
 
@@ -45,7 +45,7 @@ mysql_go() {
 # Return: none
 ###################################################################
 php_go() {
-    sudo apt-get -y install php5-fpm php5-cli php5-gd php5-mysql
+    sudo apt-get -y install php7.0 php7.0-gd php7.0-mysql
 }
 
 ###################################################################

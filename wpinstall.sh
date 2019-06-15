@@ -7,7 +7,6 @@ source $SCRIPT_DIR/configure.sh
 
 ENCRYPTED_PASSWD=$(openssl passwd -1 $HOST_PASSWD)
 
-
 ###################################################################
 # create_account
 #
@@ -158,11 +157,6 @@ configure_wp_plugins() {
         sudo su - $HOST_USER -c "cd $DOCUMENT_ROOT/$DOMAIN; \
             wp plugin install $plugin --activate"
     done
-
-    # Enable direct FTP to install plugins from dashboard
-    # Increase memory limit
-
-
 }
 
 ###################################################################
@@ -191,7 +185,7 @@ configure_wp_aspect() {
 ###################################################################
 configure_wp_config() {
 
-  echo "====== configure wordpress dashboard"
+  echo "====== Configure wp-config.php"
   echo "====== Append lines to wp-content.php file"
 
     cat >> $WP_CONFIG_FILE << EOL
