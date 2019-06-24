@@ -45,7 +45,7 @@ mysql_go() {
 # Return: none
 ###################################################################
 php_go() {
-    sudo apt-get -y install php7.0 php7.0-gd php7.0-mysql
+    sudo apt-get -y install php7.0 php7.0-gd php7.0-mysql php7.0-curl
 }
 
 ###################################################################

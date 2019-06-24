@@ -48,7 +48,7 @@ download_wp() {
 
     # Download the WordPress core files and configure wp-config.php
     sudo su - $HOST_USER -c "cd $DOCUMENT_ROOT/$DOMAIN; \
-	wp core download --locale=$WP_LOCALE; \
+	wp core download --version=5.2.2 --locale=$WP_LOCALE; \
 	wp config create --dbname=$DB_NAME --dbuser=$DB_USER \
 		--dbpass=$DB_PASSWD --skip-check"
 }
@@ -239,14 +239,13 @@ configure_wp() {
 
     # Install and configure Wordpress plugins
     configure_wp_plugins
-    configure_wa_plugin
+    #configure_wa_plugin
 
     # Configure Wordpress aspect
     configure_wp_aspect
 
     # Configure Wordpress dashboard
     configure_wp_config
-
 }
 
 ###################################################################
@@ -257,7 +256,6 @@ configure_wp() {
 # Return: none
 ###################################################################
 import_wp() {
-
   echo "===== Import wordpress databsase"
   mysql -u $MYSQL_USER -p$MYSQL_PASSWD $DB_NAME < $SCRIPT_DIR/$DB_NAME.sql
 
@@ -266,7 +264,6 @@ import_wp() {
 
   echo "===== Change file permission on wp-content wordpress folder"
   chown -R www-data:www-data $WP_CONTENT_FOLDER
-
 }
 
 
