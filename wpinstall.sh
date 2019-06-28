@@ -239,7 +239,7 @@ configure_wp() {
 
     # Install and configure Wordpress plugins
     configure_wp_plugins
-    #configure_wa_plugin
+    configure_wa_plugin
 
     # Configure Wordpress aspect
     configure_wp_aspect
@@ -260,7 +260,7 @@ import_wp() {
   mysql -u $MYSQL_USER -p$MYSQL_PASSWD $DB_NAME < $SCRIPT_DIR/$DB_NAME.sql
 
   echo "===== Import wordpress images "
-  cp -R $SCRIPT_DIR/wordpress/uploads $DOCUMENT_ROOT/$DOMAIN/wp-content
+  cp -R $SCRIPT_DIR/wordpress/* $DOCUMENT_ROOT/$DOMAIN/wp-content
 
   echo "===== Change file permission on wp-content wordpress folder"
   chown -R www-data:www-data $WP_CONTENT_FOLDER
