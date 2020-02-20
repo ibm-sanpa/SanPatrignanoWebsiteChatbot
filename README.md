@@ -1,8 +1,18 @@
-# San Patrignano Website
+# San Patrignano Demo Website
 
-Questo è un progetto per realizzare un sito web fake della comunità di San Patrignano a scopo di demo per il nuovo chatbot che si sta realizzando in collaborazione con la comunità di San Patrignano.
+Questo è un progetto per realizzare un sito web demo della comunità di San Patrignano per il nuovo chatbot che si sta realizzando in collaborazione con la comunità di San Patrignano. Il sito web è realizzato con Wordpress (come il sito web originale) e contiene solo alcuni elementi della Home page con il chatbot.
 
-Per avere il sito web funzionante sulla vostra macchine è necessario scaricare e installare sia [Virtual Box](https://www.virtualbox.org/) che [Vagrant](https://www.vagrantup.com/).
+## San Patrignano Demo Website
+
+At the following URL you can find the San Patrignano Demo Website. This URL i NOT REGISTERED in a public DNS, for this reason, you need to add the following line to your ```/etc/hosts```file.
+
+```
+169.60.176.146  sanpatrignano.softlayer.com
+```
+ 
+## San Patrignano Demo Website in Local
+
+Per avere il sito web funzionante sulla vostra macchina di sviluppo è necessario scaricare e installare sia [Virtual Box](https://www.virtualbox.org/) che [Vagrant](https://www.vagrantup.com/).
 
 Una volta installati questi prerequisiti sarà sufficiente eseguire i seguenti passi:
 
