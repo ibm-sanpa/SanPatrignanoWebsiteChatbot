@@ -4,7 +4,7 @@ Questo è un progetto per realizzare un sito web demo della comunità di San Pat
 
 ## San Patrignano Demo Website
 
-At the following URL you can find the San Patrignano Demo Website. This URL i NOT REGISTERED in a public DNS, for this reason, you need to add the following line to your ```/etc/hosts```file.
+At the [following URL](https://sanpatrignano.softlayer.com/) you can find the San Patrignano Demo Website. This URL i NOT REGISTERED in a public DNS, for this reason, you need to add the following line to your ```/etc/hosts```file.
 
 ```
 169.60.176.146  sanpatrignano.softlayer.com
